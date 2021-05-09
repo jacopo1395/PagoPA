@@ -5,8 +5,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
+        function mapErrorMessage(jsonResponse) {
+            let errorMessage = "Error: ";
+            if (jsonResponse.details.includes("fiscalCode")) {
+                errorMessage += "Invalid fiscal code\n";
+            } else if (jsonResponse.details.includes("message.subject")) {
+                errorMessage += "Subject size must be between 10 and 120 characters\n";
+            } else if (jsonResponse.details.includes("message.markdown")) {
+                errorMessage += "Message size must be between 80 and 10000 characters\n";
+            } else {
+                errorMessage += "Ops something went wrong";
+            }
+            return errorMessage;
+        }
+
         function submitForm() {
-            console.log("submit")
             let body = {
                 "fiscalCode": $('#fiscalCode').val(),
                 "message": {
@@ -14,7 +27,6 @@
                     "markdown": $('#message').val()
                 }
             }
-            console.log(body)
             $.ajax({
                 type: "POST",
                 url: "http://localhost:8080/v1/submitMessageForUser",
@@ -22,8 +34,10 @@
                 success: function (data) {
                     alert("Message sent");
                 },
-                error: function(error){
-                    alert("Error");
+                error: function(xhr, status, error){
+                    let jsonResponse = JSON.parse(xhr.responseText)
+                    let errorMessage = mapErrorMessage(jsonResponse);
+                    alert(errorMessage);
                 },
                 dataType: "json",
                 contentType: "application/json"
