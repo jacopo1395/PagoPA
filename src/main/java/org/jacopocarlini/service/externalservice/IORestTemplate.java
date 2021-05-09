@@ -15,6 +15,19 @@ public class IORestTemplate extends RestTemplate {
     private String apiKey;
 
 
+    /**
+     * Add authentication header for IO API before submit a request
+     *
+     * @param url              of the request
+     * @param method           http method of the request
+     * @param requestEntity    body of the request if needed
+     * @param responseType     class of the response
+     * @param additionalHeader headers of the request
+     * @param uriVariables     uri variables of the {@code url}
+     * @param <T>              class of response
+     * @param <V>              class of request
+     * @return the response mapped in {@code responseType} class
+     */
     public <T, V> T exchangeAuthenticated(String url,
                                           HttpMethod method,
                                           V requestEntity,

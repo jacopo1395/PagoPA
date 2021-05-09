@@ -5,6 +5,5 @@ import org.jacopocarlini.model.io.MessageResponse;
 
 public interface MessageService {
 
-
     MessageResponse submitMessageForUser(SubmitMessageRequest submitMessageRequest);
 }

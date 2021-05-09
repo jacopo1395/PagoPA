@@ -1,6 +1,6 @@
 package org.jacopocarlini.exception;
 
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.jacopocarlini.model.ErrorResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ControllerAdvice
-@Log
+@Slf4j
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     private static final String SERVER_ERROR = "Internal server error";
@@ -25,9 +25,18 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     private static final String APPLICATION_ERROR_OCCURRED = "Application error occurred";
     private static final String INVALID_INPUT = "Invalid Input";
 
+    /**
+     * Handle if the input request is not a valid JSON
+     *
+     * @param ex      {@link HttpMessageNotReadableException} exception raised
+     * @param headers of the response
+     * @param status  of the response
+     * @param request from frontend
+     * @return a {@link ErrorResponse} as response with the cause and with a 400 as HTTP status
+     */
     @Override
     public ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.warning(ex.toString());
+        log.warn(ex.toString());
         var errorResponse = ErrorResponse.builder()
                 .cause(INVALID_INPUT)
                 .details(ex.getCause().getCause().getMessage())
@@ -35,6 +44,15 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Handle if validation constraints are unsatisfied
+     *
+     * @param ex      {@link MethodArgumentNotValidException} exception raised
+     * @param headers of the response
+     * @param status  of the response
+     * @param request from frontend
+     * @return a {@link ErrorResponse} as response with the cause and with a 400 as HTTP status
+     */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> details = new ArrayList<>();
@@ -42,7 +60,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
             details.add(error.getField() + ": " + error.getDefaultMessage());
         }
         var detailsMessage = String.join(", ", details);
-        log.warning(detailsMessage);
+        log.warn(detailsMessage);
         var errorResponse = ErrorResponse.builder()
                 .cause(INVALID_INPUT)
                 .details(detailsMessage)
@@ -51,9 +69,16 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     }
 
 
+    /**
+     * Handle if a {@link IOCallException} is raised
+     *
+     * @param ex      {@link IOCallException} exception raised
+     * @param request from frontend
+     * @return a {@link ErrorResponse} as response with the cause and with an appropriated HTTP status
+     */
     @ExceptionHandler({IOCallException.class})
     public ResponseEntity<ErrorResponse> handleIOException(final IOCallException ex, final WebRequest request) {
-        log.warning(ex.toString());
+        log.warn(ex.toString());
         var errorResponse = ErrorResponse.builder()
                 .cause(ERROR_IO_CALL)
                 .details(ex.getDetails())
@@ -61,9 +86,16 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, ex.getHttpStatus());
     }
 
+    /**
+     * Handle if a {@link AppException} is raised
+     *
+     * @param ex      {@link AppException} exception raised
+     * @param request from frontend
+     * @return a {@link ErrorResponse} as response with the cause and with an appropriated HTTP status
+     */
     @ExceptionHandler({AppException.class})
     public ResponseEntity<ErrorResponse> handleAppException(final AppException ex, final WebRequest request) {
-        log.warning(ex.toString());
+        log.warn(ex.toString());
         var errorResponse = ErrorResponse.builder()
                 .cause(APPLICATION_ERROR_OCCURRED)
                 .details(ex.getDetails())
@@ -71,9 +103,17 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, ex.getHttpStatus());
     }
 
+    /**
+     * Handle if a {@link Exception} is raised
+     *
+     * @param ex      {@link Exception} exception raised
+     * @param request from frontend
+     * @return a {@link ErrorResponse} as response with the cause and with 500 as HTTP status
+     */
     @ExceptionHandler({Exception.class})
     public ResponseEntity<ErrorResponse> handleGenericException(final Exception ex, final WebRequest request) {
-        log.severe(ex.toString());
+        log.error(ex.toString());
+        ex.printStackTrace();
         var errorResponse = ErrorResponse.builder()
                 .cause(ex.getMessage())
                 .details(SERVER_ERROR)

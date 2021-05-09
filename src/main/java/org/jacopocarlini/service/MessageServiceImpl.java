@@ -1,6 +1,6 @@
 package org.jacopocarlini.service;
 
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.jacopocarlini.exception.AppException;
 import org.jacopocarlini.model.SubmitMessageRequest;
 import org.jacopocarlini.model.io.MessageResponse;
@@ -11,15 +11,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-@Log
+@Slf4j
 public class MessageServiceImpl implements MessageService {
 
-    public static final String MESSAGE_SENT = "Message sent";
+    public static final String MESSAGE_SENT = "Message sent to user";
     public static final String MESSAGES_NOT_ALLOWED = "The user does not allow to receive messages";
 
     @Autowired
     private IOClient ioClient;
 
+    /**
+     * @param request the message to send and the user that receive the message
+     * @return the message id if the profile exists and if user allowed to receive message otherwise throws an {@link AppException}
+     */
     @Override
     public MessageResponse submitMessageForUser(SubmitMessageRequest request) {
         ProfileResponse profile = ioClient.getProfile(request.getFiscalCode());

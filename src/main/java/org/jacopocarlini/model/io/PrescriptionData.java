@@ -17,7 +17,7 @@ public class PrescriptionData {
     private String numeroRicettaElettronica;
 
     @JsonProperty(value = "iup")
-    private String  identificativoUnicoPrescrizione;
+    private String identificativoUnicoPrescrizione;
 
     @JsonProperty(value = "prescriber_fiscal_code")
     private String prescriberFiscalCode;

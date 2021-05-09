@@ -1,9 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "io_api_key",
-      "type": "java.lang.String",
-      "description": "api key to authenticate with io."
-    }
-  ]
-}

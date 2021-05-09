@@ -8,8 +8,15 @@ import org.springframework.http.HttpStatus;
 @Value
 public class IOCallException extends RuntimeException {
 
+    /**
+     * message to return in the response when this exception occurred
+     */
     String details;
+    /**
+     * http status to return in the response when this exception occurred
+     */
     HttpStatus httpStatus;
+
 
     public IOCallException(String details, HttpStatus httpStatus) {
         this.details = details;

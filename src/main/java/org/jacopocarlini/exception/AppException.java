@@ -8,7 +8,13 @@ import org.springframework.http.HttpStatus;
 @Value
 public class AppException extends RuntimeException {
 
+    /**
+     * message to return in the response when this exception occurred
+     */
     String details;
+    /**
+     * http status to return in the response when this exception occurred
+     */
     HttpStatus httpStatus;
 
     public AppException(String details, HttpStatus httpStatus) {

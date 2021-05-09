@@ -19,6 +19,9 @@ import java.util.List;
 @EqualsAndHashCode
 public class ProfileResponse {
 
+    /**
+     * if true the user allowed to receive messages
+     */
     @JsonProperty(value = "sender_allowed")
     private Boolean senderAllowed;
 
