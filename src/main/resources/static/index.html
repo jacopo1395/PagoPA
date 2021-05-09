@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>IO Client</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function submitForm() {
+            console.log("submit")
+            let formData = {
+                "fiscalCode": $('#fiscalCode').val(),
+                "message": {
+                    "subject": $('#subject').val(),
+                    "markdown": $('#message').val()
+                }
+            }
+            console.log(formData)
+            $.ajax({
+                type: "POST",
+                url: "localhost:8080/submitMessageForUser",
+                body: formData,
+                success: function () {
+                    alert("message sent");
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+        }
+    </script>
+</head>
+<body>
+<h3>Send a message to a user</h3>
+<form>
+
+<label for="fiscalCode">Fiscal Code:</label>
+<input type="text" id="fiscalCode" name="fiscalCode" minlength="16" maxlength="16"><br><br>
+
+<label for="subject">Subject:</label>
+<input type="text" id="subject" name="subject" minlength="10" maxlength="120"><br><br>
+
+<label for="message">Message (in markdown):</label>
+<input type="text" id="message" name="message" minlength="80" maxlength="10000"><br><br>
+
+<input value="Send" type="button" onclick="submitForm()">
+
+</form>
+</body>
+</html>
