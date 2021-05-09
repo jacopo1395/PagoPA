@@ -7,20 +7,23 @@
     <script type="text/javascript">
         function submitForm() {
             console.log("submit")
-            let formData = {
+            let body = {
                 "fiscalCode": $('#fiscalCode').val(),
                 "message": {
                     "subject": $('#subject').val(),
                     "markdown": $('#message').val()
                 }
             }
-            console.log(formData)
+            console.log(body)
             $.ajax({
                 type: "POST",
-                url: "localhost:8080/submitMessageForUser",
-                body: formData,
-                success: function () {
-                    alert("message sent");
+                url: "http://localhost:8080/v1/submitMessageForUser",
+                data: JSON.stringify(body),
+                success: function (data) {
+                    alert("Message sent");
+                },
+                error: function(error){
+                    alert("Error");
                 },
                 dataType: "json",
                 contentType: "application/json"

@@ -1,7 +1,7 @@
 # PagoPA
-this is an API client that can be used to send a “message” to a citizen using the “IO” REST API.
+This is an API client that can be used to send a “message” to a citizen using the “IO” REST API.
 
-I use spring boot to realize this project. The application expose one REST operation.
+I use spring boot to realize this project. The application expose one REST operation and a simple web client in HTML.
 ## Run
 To start the application use this command: `mvn spring-boot:run`
 
@@ -30,3 +30,8 @@ JSON body:
 
 _Note: AAAAAA00A00A000A is a fiscal code for testing_
 
+
+## WebClient
+Open in your browser `localhost:8080` for the web client. Just insert a fiscal code and a message and push "Send".
+
+_Disable CORS if you work in local_
