@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -17,11 +18,13 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @EqualsAndHashCode
+@NotNull
 public class ProfileResponse {
 
     /**
      * if true the user allowed to receive messages
      */
+    @NotNull
     @JsonProperty(value = "sender_allowed")
     private Boolean senderAllowed;
 

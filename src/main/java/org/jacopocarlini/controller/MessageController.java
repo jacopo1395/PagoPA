@@ -40,8 +40,8 @@ public class MessageController {
             @ApiResponse(responseCode = "201"),
             @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "502", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
     })
     @PostMapping(path = AppConstants.Url.SUBMIT_MESSAGE_FOR_USER, consumes = "application/json", produces = "application/json")
     public ResponseEntity<MessageResponse> submitMessageForUser(

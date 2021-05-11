@@ -24,7 +24,7 @@ public class IOClient {
     /**
      * @param fiscalCode User's fiscal code
      * @param message    subject and text in markdown of message
-     * @return the message id sent
+     * @return the id of the message sent
      */
     public MessageResponse submitMessageForUser(String fiscalCode, Message message) {
         MessageRequest request = MessageRequest.builder()
@@ -39,7 +39,6 @@ public class IOClient {
                 request,
                 MessageResponse.class,
                 null);
-
     }
 
     /**
@@ -53,7 +52,6 @@ public class IOClient {
                 ProfileResponse.class,
                 null,
                 fiscalCode);
-
     }
 
 }

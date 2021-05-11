@@ -84,6 +84,19 @@ class IOClientTest {
         }
     }
 
+    @Test
+    void getProfileKO2() throws IOException {
+        try {
+            mockProfileCall(HttpStatus.OK, "ioresponse/profileResponseInvalid.json");
+            ioClient.getProfile(FISCAL_CODE);
+            fail();
+        } catch (IOCallException e) {
+            assertEquals(HttpStatus.BAD_GATEWAY, e.getHttpStatus());
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
     private void mockSubmitMessageCall() throws IOException {
         mockIOServer.expect(requestTo(SUBMIT_MESSAGE_URL))
                 .andExpect(method(HttpMethod.POST))

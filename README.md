@@ -33,5 +33,6 @@ _Note: AAAAAA00A00A000A is a fiscal code for testing_
 
 ## WebClient
 Open in your browser `localhost:8080` for the web client. Just insert a fiscal code and a message and push "Send".
+The web client is just for testing the Rest API.
 
 _Disable CORS if you work in local_
