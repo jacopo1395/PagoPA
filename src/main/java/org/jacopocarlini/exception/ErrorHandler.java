@@ -115,8 +115,8 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         log.error(ex.toString());
         ex.printStackTrace();
         var errorResponse = ErrorResponse.builder()
-                .cause(ex.getMessage())
-                .details(SERVER_ERROR)
+                .cause(SERVER_ERROR)
+                .details(ex.getMessage())
                 .build();
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
